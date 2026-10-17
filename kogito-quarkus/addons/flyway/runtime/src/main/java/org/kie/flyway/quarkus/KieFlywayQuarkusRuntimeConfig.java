@@ -24,7 +24,6 @@ import java.util.Map;
 import io.quarkus.runtime.annotations.*;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
-import io.smallrye.config.WithParentName;
 
 /**
  * Configuration for the Kie Flyway initializer
@@ -40,10 +39,15 @@ public interface KieFlywayQuarkusRuntimeConfig {
     boolean enabled();
 
     /**
-     * List of {@link KieQuarkusFlywayNamedModuleConfig} that allow to enable or disable a given modul
+     * Allows migrations to be run "out of order".
+     * If you already have versions 1 and 3 applied, and now a version 2 is found, it will be applied too instead of being ignored.
      */
+    @WithDefault("true")
+    boolean outOfOrder();
 
-    @WithParentName
+    /**
+     * List of {@link KieQuarkusFlywayNamedModuleConfig} that allow to enable or disable a given module
+     */
     Map<String, KieQuarkusFlywayNamedModuleConfig> modules();
 
 }
